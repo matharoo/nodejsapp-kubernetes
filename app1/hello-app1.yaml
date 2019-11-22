@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-app1
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8080
+    targetPort: 8080
+  selector:
+    app: hello-app1
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-app1
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hello-app1
+  template:
+    metadata:
+      labels:
+        app: hello-app1
+    spec:
+      containers:
+      - name: hello-app1
+        image: hello-app1
+        ports:
+        - containerPort: 8080
+        imagePullPolicy: IfNotPresent
